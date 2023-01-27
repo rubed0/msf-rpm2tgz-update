@@ -11,6 +11,8 @@ get_answer() {
 	done
 }
 
+# Get true if the first version, argument $1, is lte the second version, argument $2
+# through the -V option of sort for version sorting
 verlte() {
 	[ "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
 }
