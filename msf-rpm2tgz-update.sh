@@ -18,13 +18,11 @@ verlte() {
 }
 
 CWD=$(pwd)
-INSTALLED_VER="$(ls /var/log/packages/metasploit* | cut -d/ -f5 | cut -d- -f3)"
-LATEST="$(curl -s rpm.metasploit.com | sed -n 53p | cut -d= -f2 | cut -d\" -f2 | cut -d/ -f4)"
-WEB="https://rpm.metasploit.com/metasploit-omnibus/pkg/""$LATEST"
-RPM="$(curl -s rpm.metasploit.com | sed -n 53p | cut -d= -f2 | cut -d/ -f4 | cut -d\> -f2 | tr -d "<")"
-TGZ="$(echo $RPM | sed 's/rpm/tgz/')"
-LATEST_VER="$(curl -s rpm.metasploit.com | sed -n 53p | cut -d= -f2 | cut -d/ -f4 | cut -d\> -f2 | tr -d "<" | tr '~' '_' | cut -d- -f3)"
-
+INSTALLED_VER="$(ls /var/log/packages/metasploit* | cut -d/ -f5)"
+RPM="$(curl -s rpm.metasploit.com | grep -Po "metasploit-framework[^%]*?rpm" | tail -n 1)"
+WEB="https://rpm.metasploit.com/metasploit-omnibus/pkg/""$RPM"
+TGZ=${RPM::-3}"tgz"
+LATEST_VER=${RPM::-4}
 
 if [ -z "$INSTALLED_VER" ]; then
 	
